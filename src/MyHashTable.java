@@ -52,8 +52,31 @@ public class MyHashTable<K,V> {
             currentNode.next = node;
             size++;
         }
+        if(M/size < 0.7){
+            M*=2;
+            HashNode<K,V>[] newChainArray = new HashNode[M];
+            for(int j = 0; j < chainArray.length; j++){
+                newChainArray[j] = chainArray[j];
+            }
+            chainArray = newChainArray;
+        }
     }
     public V get(K key){
+        int i = hash(key); // identifying the index of chain array (hash)
+        if(chainArray[i] == null){
+            return null;
+        }else{
+            HashNode<K,V> currentNode = chainArray[i]; // the head of bucket
+            if(currentNode.key.equals(key)){ // if the head is the element we need
+                return currentNode.value;
+            }
+            while (currentNode != null) { // traversing the bucket
+                if(currentNode.key.equals(key)){
+                    return currentNode.value;
+                }
+                currentNode = currentNode.next;
+            }
+        }
         return null;
     }
     public V remove(K key){
