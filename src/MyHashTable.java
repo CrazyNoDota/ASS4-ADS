@@ -103,11 +103,14 @@ public class MyHashTable<K,V> {
     }
     public boolean contains(V value){
         for(int i = 0; i < chainArray.length; i++){ // traversing through all buckets
+            if(chainArray[i] == null){
+                continue;
+            }
             HashNode<K,V> currentNode = chainArray[i];
             if(currentNode.value.equals(value)){
                 return true;
             }else{
-                while (currentNode != null){ // traversing through particular bucket(linked list) elements
+                while (currentNode.next != null){ // traversing through particular bucket(linked list) elements
                     if(currentNode.value.equals(value)){
                         return true;
                     }
