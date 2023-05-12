@@ -1,101 +1,29 @@
 package src;
 
-public class TestClass<K,V> {
-    private class HashNode <K,V>{
-        K key;
-        V value;
-        HashNode<K,V> next;
+import java.util.Random;
 
-        public HashNode(K key, V value){
-            this.key = key;
-            this.value = value;
-        }
-    }
-
-    private HashNode<K,V>[] chainArray;
-    private int M = 11;
-    private int size;
-
+public class TestClass{
+    MyHashTable<String, Integer> table;
     public TestClass(){
-        chainArray = new HashNode[M];
+        table = new MyHashTable<>();
     }
 
-    public TestClass(int M){
-        this.M = M;
-        chainArray = new HashNode[M];
-    }
-
-    private int hash(K key){
-        String strKey = (String) key;
-        int sum = 0;
-        for(int i=0; i<strKey.length(); i++){
-            sum += strKey.charAt(i);
-            sum*=31;
+    public void addThousand(){
+        Random rn = new Random();
+        for(int j = 0; j < 200; j++){
+            table.put("askar", rn.nextInt(1000));
         }
-        return sum % M;
-    }
-
-    public void put(K key, V value){
-        int i = hash(key);
-        for (HashNode<K, V> x = chainArray[i]; x != null; x = x.next) {
-            if (key.equals(x.key)) {
-                x.value = value;
-                return;
-            }
+        for(int j = 0; j < 200; j++){
+            table.put("jalil", rn.nextInt(2000));
         }
-        HashNode<K,V> node = new HashNode<K,V>(key,value);
-        node.next = chainArray[i];
-        chainArray[i] = node;
-        size++;
-    }
-
-    public V get(K key){
-        int i = hash(key);
-        for (HashNode<K, V> x = chainArray[i]; x != null; x = x.next) {
-            if (key.equals(x.key)) {
-                return x.value;
-            }
+        for(int j = 0; j < 200; j++){
+            table.put("aslan", rn.nextInt(3000));
         }
-        return null;
-    }
-
-    public V remove(K key){
-        int i = hash(key);
-        HashNode<K, V> prev = null;
-        for (HashNode<K, V> x = chainArray[i]; x != null; x = x.next) {
-            if (key.equals(x.key)) {
-                if (prev != null) {
-                    prev.next = x.next;
-                } else {
-                    chainArray[i] = x.next;
-                }
-                size--;
-                return x.value;
-            }
-            prev = x;
+        for(int j = 0; j < 200; j++){
+            table.put("alisher", rn.nextInt(4000));
         }
-        return null;
-    }
-
-    public boolean contains(V value){
-        for (int i = 0; i < M; i++) {
-            for (HashNode<K, V> x = chainArray[i]; x != null; x = x.next) {
-                if (value.equals(x.value)) {
-                    return true;
-                }
-            }
+        for(int j = 0; j < 200; j++){
+            table.put("alex", rn.nextInt(5000));
         }
-        return false;
-    }
-
-    public K getKey(V value){
-        for (int i = 0; i < M; i++) {
-            for (HashNode<K, V> x = chainArray[i]; x != null; x = x.next) {
-                if (value.equals(x.value)) {
-                    return x.key;
-                }
-            }
-        }
-        return null;
     }
 }
