@@ -121,7 +121,22 @@ public class MyHashTable<K,V> {
         }
         return false;
     }
-    public K getKey(V value){
+    public K getKey(V value){ // finding key by value
+        for(int i = 0; i < chainArray.length; i++){ // traversing through buckets
+            if(chainArray[i] == null){ // if it is null there is no value
+                continue;
+            }
+            if (chainArray[i].value.equals(value)){
+                return chainArray[i].key;
+            }
+            HashNode<K,V> currentNode = chainArray[i];
+            while (currentNode != null){ // traversing through one bucket
+                if(currentNode.value.equals(value)){
+                    return currentNode.key;
+                }
+                currentNode = currentNode.next;
+            }
+        }
         return null;
     }
 }

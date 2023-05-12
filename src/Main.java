@@ -5,9 +5,8 @@ public class Main {
         MyHashTable<String, Integer> table = new MyHashTable<String, Integer>();
 
         table.put("as", 1111);
-
-
-        System.out.println(table.contains(1111));
+        table.put("as", 1234);
+        System.out.println(table.getKey(1111));
 
     }
 }
