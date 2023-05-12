@@ -79,7 +79,26 @@ public class MyHashTable<K,V> {
         }
         return null;
     }
-    public V remove(K key){
+    public V remove(K key){ // the code to remove an object from chain array
+        int i = hash(key); // generating hash
+        if(chainArray[i] == null){
+            throw new IndexOutOfBoundsException("There is no such key"); // if there is no key that we want to delete then error
+        }else{
+            HashNode<K,V> currentNode = chainArray[i];
+            if(currentNode.key.equals(key)){
+                chainArray[i] = currentNode.next; // if it is first element
+            }else{
+                HashNode<K,V> previousNode = currentNode;
+                while(currentNode != null){ // traversing the bucket
+                    if(currentNode.key.equals(key)){
+                        previousNode.next = currentNode.next;
+                    }
+                    previousNode = currentNode;
+                    currentNode = currentNode.next;
+
+                }
+            }
+        }
         return null;
     }
     public boolean contains(V value){
