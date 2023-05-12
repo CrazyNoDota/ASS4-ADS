@@ -102,7 +102,20 @@ public class MyHashTable<K,V> {
         return null;
     }
     public boolean contains(V value){
+        for(int i = 0; i < chainArray.length; i++){ // traversing through all buckets
+            HashNode<K,V> currentNode = chainArray[i];
+            if(currentNode.value.equals(value)){
+                return true;
+            }else{
+                while (currentNode != null){ // traversing through particular bucket(linked list) elements
+                    if(currentNode.value.equals(value)){
+                        return true;
+                    }
+                    currentNode = currentNode.next;
+                }
+            }
 
+        }
         return false;
     }
     public K getKey(V value){
