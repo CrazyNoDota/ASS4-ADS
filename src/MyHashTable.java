@@ -37,8 +37,21 @@ public class MyHashTable<K,V> {
 
         return sum % M;
     }
-    public void put(K key, V value){
+    public void put(K key, V value){ // here I use my hash as an index
+        int i = hash(key); // creating the hash (using it as Index)
+        HashNode<K,V> node = new HashNode<K,V>(key, value);
 
+        if(chainArray[i] == null){
+            chainArray[i] = node; // if there is now elements in the bucket I just add an element to the head
+            size++;
+        }else{
+            HashNode<K,V> currentNode = chainArray[i];
+            while(currentNode.next != null){ // if there is an element, traverse to the end and add to the end
+                currentNode = currentNode.next;
+            }
+            currentNode.next = node;
+            size++;
+        }
     }
     public V get(K key){
         return null;
