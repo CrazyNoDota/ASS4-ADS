@@ -33,6 +33,7 @@ public class MyHashTable<K,V> {
         int sum = 0;
         for(int i = 0; i < strKey.length(); i++){
             sum += strKey.charAt(i);
+            sum*=31;
         }
 
         return sum % M;
@@ -121,6 +122,27 @@ public class MyHashTable<K,V> {
         }
         return false;
     }
+    public void displayBucketElements() {
+        int[] bucketCounts = new int[M];
+
+        for (int i = 0; i < chainArray.length; i++) {
+            int count = 0;
+            HashNode<K,V> currentNode = chainArray[i];
+
+            while (currentNode != null) {
+                count++;
+                currentNode = currentNode.next;
+            }
+
+            bucketCounts[i] = count;
+        }
+
+        // Display the number of elements in each bucket
+        for (int i = 0; i < bucketCounts.length; i++) {
+            System.out.println("Bucket " + i + ": " + bucketCounts[i] + " elements");
+        }
+    }
+
     public K getKey(V value){ // finding key by value
         for(int i = 0; i < chainArray.length; i++){ // traversing through buckets
             if(chainArray[i] == null){ // if it is null there is no value
@@ -134,7 +156,7 @@ public class MyHashTable<K,V> {
                 if(currentNode.value.equals(value)){
                     return currentNode.key;
                 }
-                currentNode = currentNode.next;,
+                currentNode = currentNode.next;
             }
         }
         return null;
