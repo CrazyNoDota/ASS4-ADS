@@ -18,18 +18,57 @@ public class MyHashTable<K,V> {
     private HashNode<K,V>[] chainArray;
     private int M = 1000000;
     private int size;
+    private double loadFactor = 0.7; // Set the load factor to 0.7 (70%)
+    private int threshold; // Threshold for resizing
 
     public MyHashTable(){
         chainArray = new HashNode[M];
         size = 0;
+        threshold = (int)(M * loadFactor);
     }
     public MyHashTable(int M){ // This is a constructor for a certain size for
         this.M = M;
         chainArray = new HashNode[M];
         size = 0;
+        threshold = (int)(M * loadFactor);
+    }
+    public void resize() {
+        int newM = M * 2; // Double the size of chainArray
+        HashNode<K, V>[] newChainArray = new HashNode[newM];
+
+        // Rehash all elements to the new chainArray
+        for (int i = 0; i < M; i++) {
+            HashNode<K, V> currentNode = chainArray[i];
+            while (currentNode != null) {
+                int newIndex = hash(currentNode.key) % newM;
+                HashNode<K, V> newNode = new HashNode<>(currentNode.key, currentNode.value);
+                if (newChainArray[newIndex] == null) {
+                    newChainArray[newIndex] = newNode;
+                } else {
+                    HashNode<K, V> current = newChainArray[newIndex];
+                    while (current.next != null) {
+                        current = current.next;
+                    }
+                    current.next = newNode;
+                }
+                currentNode = currentNode.next;
+            }
+        }
+
+        // Update chainArray and threshold with the new values
+        chainArray = newChainArray;
+        M = newM;
+        threshold = (int)(M * loadFactor);
     }
     private int hash(K key){ // generating char from a key
-        return Math.abs(key.hashCode() % M);
+        int hashCode = 0;
+
+        // Generating the hash code from the key
+        for (char c : key.toString().toCharArray()) {
+            hashCode = 31 * hashCode + c;
+        }
+
+        return Math.abs(hashCode % M);
     }
     public void put(K key, V value){ // here I use my hash as an index
         int i = hash(key); // creating the hash (using it as Index)
@@ -45,15 +84,12 @@ public class MyHashTable<K,V> {
             }
             currentNode.next = node;
             size++;
-        }
-        if(M/size < 0.7){
-            M*=2;
-            HashNode<K,V>[] newChainArray = new HashNode[M];
-            for(int j = 0; j < chainArray.length; j++){
-                newChainArray[j] = chainArray[j];
+
+            if (size >= threshold) {
+                resize(); // Resize the chainArray if the size exceeds the threshold
             }
-            chainArray = newChainArray;
         }
+
     }
     public V get(K key){
         int i = hash(key); // identifying the index of chain array (hash)
