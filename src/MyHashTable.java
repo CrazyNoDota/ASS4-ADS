@@ -16,7 +16,7 @@ public class MyHashTable<K,V> {
         }
     }
     private HashNode<K,V>[] chainArray;
-    private int M = 11;
+    private int M = 110079;
     private int size;
 
     public MyHashTable(){
@@ -39,7 +39,7 @@ public class MyHashTable<K,V> {
         return sum % M;
     }
     public void put(K key, V value){ // here I use my hash as an index
-        int i = hash(key); // creating the hash (using it as Index)
+        int i = key.hashCode(); // creating the hash (using it as Index)
         HashNode<K,V> node = new HashNode<K,V>(key, value);
 
         if(chainArray[i] == null){
@@ -139,6 +139,7 @@ public class MyHashTable<K,V> {
 
         // Display the number of elements in each bucket
         for (int i = 0; i < bucketCounts.length; i++) {
+            if(bucketCounts[i] != 0)
             System.out.println("Bucket " + i + ": " + bucketCounts[i] + " elements");
         }
     }
