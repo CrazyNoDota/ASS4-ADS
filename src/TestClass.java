@@ -25,5 +25,6 @@ public class TestClass{
         for(int j = 0; j < 200; j++){
             table.put("alex", rn.nextInt(5000));
         }
+        table.displayBucketElements();
     }
 }

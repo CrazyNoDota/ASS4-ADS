@@ -16,7 +16,7 @@ public class MyHashTable<K,V> {
         }
     }
     private HashNode<K,V>[] chainArray;
-    private int M = 110079;
+    private int M = 1000000;
     private int size;
 
     public MyHashTable(){
@@ -29,17 +29,10 @@ public class MyHashTable<K,V> {
         size = 0;
     }
     private int hash(K key){ // generating char from a key
-        String strKey = (String) key;
-        int sum = 0;
-        for(int i = 0; i < strKey.length(); i++){
-            sum += strKey.charAt(i);
-            sum*=31;
-        }
-
-        return sum % M;
+        return Math.abs(key.hashCode() % M);
     }
     public void put(K key, V value){ // here I use my hash as an index
-        int i = key.hashCode(); // creating the hash (using it as Index)
+        int i = hash(key); // creating the hash (using it as Index)
         HashNode<K,V> node = new HashNode<K,V>(key, value);
 
         if(chainArray[i] == null){
