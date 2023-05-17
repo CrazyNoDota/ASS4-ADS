@@ -191,4 +191,12 @@ public class MyHashTable<K,V> {
         }
         return null;
     }
+
+    public boolean containsKey(K key){
+        int i = hash(key);
+        if(chainArray[i] != null){
+            return true;
+        }
+        return false;
+    }
 }
