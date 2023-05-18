@@ -195,7 +195,13 @@ public class MyHashTable<K,V> {
     public boolean containsKey(K key){
         int i = hash(key);
         if(chainArray[i] != null){
-            return true;
+            HashNode currentNode = chainArray[i];
+            while(currentNode != null){
+                if(currentNode.key.equals(key)){
+                    return true;
+                }
+                currentNode = currentNode.next;
+            }
         }
         return false;
     }
